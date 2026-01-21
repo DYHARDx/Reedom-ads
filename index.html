@@ -35,13 +35,13 @@ body{
 
 .redeem-box{
   margin:26px 12px;
-  padding:24px 16px;
+  padding:26px 16px;
   background:linear-gradient(180deg,#0f172a,#020617);
   border-radius:18px;
   box-shadow:0 10px 25px rgba(0,0,0,.6);
 }
 
-.redeem-box h2{margin-top:0}
+.hidden{display:none}
 
 button{
   padding:14px 28px;
@@ -56,7 +56,7 @@ button{
   max-width:260px;
 }
 
-/* ===== ADS UI ===== */
+/* ADS */
 .ad-wrap{
   margin:14px 10px;
   padding:10px;
@@ -68,13 +68,9 @@ button{
   align-items:center;
   overflow:hidden;
 }
+.ad-wrap iframe{max-width:100%!important}
 
-.ad-wrap iframe{
-  max-width:100%!important;
-  height:auto;
-}
-
-/* ===== POPUP ===== */
+/* POPUP */
 .popup{
   position:fixed;
   inset:0;
@@ -101,6 +97,13 @@ button{
   color:white;
 }
 
+.count{
+  font-size:30px;
+  font-weight:900;
+  color:#4ade80;
+  margin-top:8px;
+}
+
 .small{opacity:.7;font-size:13px}
 </style>
 </head>
@@ -111,45 +114,70 @@ button{
 
 <div class="container">
 
-<!-- ===== 10 RESPONSIVE AD SLOTS ===== -->
+<!-- ADS (example slots, aur copy kar sakta hai) -->
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 
+<!-- MAIN -->
 <div class="redeem-box">
-  <h2>🎁 Unlock Your Free Redeem Code</h2>
-  <p>Limited reward. Unlock karne ke liye niche click karo.</p>
-  <button onclick="openPopup()">Redeem Now</button>
-  <p class="small">⚡ Fast • 🎮 Gaming rewards • 🔒 UI demo</p>
+
+  <h2>🎁 Redeem Center</h2>
+
+  <div id="generateBox">
+    <p>⚙ Please wait, we are generating redeem code…</p>
+    <div class="count" id="countdown">10</div>
+  </div>
+
+  <div id="buttonBox" class="hidden">
+    <p>✅ Your reward is ready</p>
+    <button onclick="openPopup()">Redeem Now</button>
+  </div>
+
+  <p class="small">Secure UI demo • Gaming rewards</p>
 </div>
 
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
-<div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
-<div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
-<div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
-<div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
-<div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 
 </div>
 
-<!-- ===== POPUP ===== -->
+<!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-box">
     <h3>⚠ First Subscribe</h3>
     <p>Redeem unlock karne ke liye channel subscribe karo.</p>
     <button class="subscribe-btn" onclick="goYouTube()">Subscribe</button>
-    <p class="small">YouTube app installed hogi to direct app open hogi</p>
+    <p class="small">YouTube app hogi to direct open hogi</p>
   </div>
 </div>
 
 <script>
+/*
+User ko lagega 10 second ka timer
+But actually har number 3 sec me change hoga
+10 x 3 = 30 sec total
+*/
+
+let fakeTime = 10;
+const cd = document.getElementById("countdown");
+
+const fakeTimer = setInterval(()=>{
+  fakeTime--;
+  cd.textContent = fakeTime;
+
+  if(fakeTime <= 0){
+    clearInterval(fakeTimer);
+    document.getElementById("generateBox").style.display="none";
+    document.getElementById("buttonBox").style.display="block";
+  }
+}, 3000); // 👈 har 3 second me change = total 30 sec
+
 function openPopup(){
   document.getElementById("popup").style.display="flex";
 }
 
 function goYouTube(){
-  // Stable link (Android automatically app me open karega)
   window.location.href = "https://www.youtube.com/@dx_gamez";
 }
 </script>
