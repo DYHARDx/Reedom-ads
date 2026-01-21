@@ -56,7 +56,7 @@ button{
   max-width:260px;
 }
 
-/* ADS */
+/* ===== ADS UI ===== */
 .ad-wrap{
   margin:14px 10px;
   padding:10px;
@@ -70,7 +70,7 @@ button{
 }
 .ad-wrap iframe{max-width:100%!important}
 
-/* POPUP */
+/* ===== POPUP ===== */
 .popup{
   position:fixed;
   inset:0;
@@ -114,13 +114,13 @@ button{
 
 <div class="container">
 
-<!-- ADS (example slots, aur copy kar sakta hai) -->
+<!-- ===== ADS (10 slots example) ===== -->
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 
-<!-- MAIN -->
-<div class="redeem-box">
+<!-- ===== MAIN REDEEM BOX ===== -->
+<div class="redeem-box" id="mainBox">
 
   <h2>🎁 Redeem Center</h2>
 
@@ -137,28 +137,30 @@ button{
   <p class="small">Secure UI demo • Gaming rewards</p>
 </div>
 
+<!-- ===== LIMIT MESSAGE (RETURN AFTER YT) ===== -->
+<div id="limitBox" class="redeem-box hidden">
+  <h2>❌ Oh no 😔</h2>
+  <p>Aaj ka limit pura ho chuka hai.</p>
+  <p>Kal fir se try kare. Thank you 🙏</p>
+</div>
+
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 
 </div>
 
-<!-- POPUP -->
+<!-- ===== POPUP ===== -->
 <div class="popup" id="popup">
   <div class="popup-box">
     <h3>⚠ First Subscribe</h3>
     <p>Redeem unlock karne ke liye channel subscribe karo.</p>
-    <button class="subscribe-btn" onclick="goYouTube()">Subscribe</button>
+    <button class="subscribe-btn" onclick="handleSubscribe()">Subscribe</button>
     <p class="small">YouTube app hogi to direct open hogi</p>
   </div>
 </div>
 
 <script>
-/*
-User ko lagega 10 second ka timer
-But actually har number 3 sec me change hoga
-10 x 3 = 30 sec total
-*/
-
+/* ===== FAKE 10s COUNTDOWN, ACTUAL 30s ===== */
 let fakeTime = 10;
 const cd = document.getElementById("countdown");
 
@@ -171,15 +173,45 @@ const fakeTimer = setInterval(()=>{
     document.getElementById("generateBox").style.display="none";
     document.getElementById("buttonBox").style.display="block";
   }
-}, 3000); // 👈 har 3 second me change = total 30 sec
+}, 3000); // 10 steps × 3s = 30s
 
+/* ===== POPUP ===== */
 function openPopup(){
   document.getElementById("popup").style.display="flex";
 }
 
-function goYouTube(){
+/* ===== SUBSCRIBE FLOW ===== */
+function handleSubscribe(){
+  // mark that user went to YouTube
+  localStorage.setItem("subClicked","yes");
+
+  // redirect to YouTube
   window.location.href = "https://www.youtube.com/@dx_gamez";
 }
+
+/* ===== WHEN USER COMES BACK ===== */
+window.addEventListener("load", function(){
+
+  if(localStorage.getItem("subClicked") === "yes"){
+
+    // hide popup if any
+    const popup = document.getElementById("popup");
+    if(popup) popup.style.display = "none";
+
+    // hide main redeem box
+    const main = document.getElementById("mainBox");
+    if(main) main.style.display = "none";
+
+    // show limit message
+    document.getElementById("limitBox").style.display = "block";
+
+    // clear flag so refresh normal ho jaye
+    localStorage.removeItem("subClicked");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+});
 </script>
 
 </body>
