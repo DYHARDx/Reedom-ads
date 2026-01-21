@@ -56,7 +56,7 @@ button{
   max-width:260px;
 }
 
-/* ===== ADS UI ===== */
+/* ADS */
 .ad-wrap{
   margin:14px 10px;
   padding:10px;
@@ -70,7 +70,7 @@ button{
 }
 .ad-wrap iframe{max-width:100%!important}
 
-/* ===== POPUP ===== */
+/* POPUP */
 .popup{
   position:fixed;
   inset:0;
@@ -114,12 +114,11 @@ button{
 
 <div class="container">
 
-<!-- ===== ADS (10 slots example) ===== -->
-<div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
+<!-- ADS -->
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 
-<!-- ===== MAIN REDEEM BOX ===== -->
+<!-- MAIN BOX -->
 <div class="redeem-box" id="mainBox">
 
   <h2>🎁 Redeem Center</h2>
@@ -137,7 +136,7 @@ button{
   <p class="small">Secure UI demo • Gaming rewards</p>
 </div>
 
-<!-- ===== LIMIT MESSAGE (RETURN AFTER YT) ===== -->
+<!-- LIMIT MESSAGE -->
 <div id="limitBox" class="redeem-box hidden">
   <h2>❌ Oh no 😔</h2>
   <p>Aaj ka limit pura ho chuka hai.</p>
@@ -145,11 +144,10 @@ button{
 </div>
 
 <div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
-<div class="ad-wrap"><script>atOptions={'key':'6e84e96be3baaec2071d4157dca8c3b0','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/6e84e96be3baaec2071d4157dca8c3b0/invoke.js"></script></div>
 
 </div>
 
-<!-- ===== POPUP ===== -->
+<!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-box">
     <h3>⚠ First Subscribe</h3>
@@ -160,7 +158,7 @@ button{
 </div>
 
 <script>
-/* ===== FAKE 10s COUNTDOWN, ACTUAL 30s ===== */
+/* Fake 10s looking countdown, actually 30s */
 let fakeTime = 10;
 const cd = document.getElementById("countdown");
 
@@ -173,45 +171,40 @@ const fakeTimer = setInterval(()=>{
     document.getElementById("generateBox").style.display="none";
     document.getElementById("buttonBox").style.display="block";
   }
-}, 3000); // 10 steps × 3s = 30s
+}, 3000);
 
-/* ===== POPUP ===== */
+/* Popup */
 function openPopup(){
   document.getElementById("popup").style.display="flex";
 }
 
-/* ===== SUBSCRIBE FLOW ===== */
+/* Subscribe click */
 function handleSubscribe(){
-  // mark that user went to YouTube
   localStorage.setItem("subClicked","yes");
-
-  // redirect to YouTube
   window.location.href = "https://www.youtube.com/@dx_gamez";
 }
 
-/* ===== WHEN USER COMES BACK ===== */
-window.addEventListener("load", function(){
+/* RETURN FIX (load + back cache both) */
+function checkReturn(){
 
   if(localStorage.getItem("subClicked") === "yes"){
 
-    // hide popup if any
     const popup = document.getElementById("popup");
     if(popup) popup.style.display = "none";
 
-    // hide main redeem box
     const main = document.getElementById("mainBox");
     if(main) main.style.display = "none";
 
-    // show limit message
     document.getElementById("limitBox").style.display = "block";
 
-    // clear flag so refresh normal ho jaye
     localStorage.removeItem("subClicked");
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+}
 
-});
+window.addEventListener("load", checkReturn);
+window.addEventListener("pageshow", checkReturn);
 </script>
 
 </body>
